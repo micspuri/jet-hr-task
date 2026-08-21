@@ -3,135 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcolatore RAL → Netto | Michele Spuri × Jet HR</title>
+<title>Calcolatore RAL → Netto 2026 | Task Jet HR</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f5; color: #1a1a1a; padding: 24px 16px; }
-  .container { max-width: 620px; margin: 0 auto; }
-  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
-  .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
-  label { font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; }
-  .input-row { display: flex; gap: 8px; align-items: center; }
-  .euro { font-size: 18px; color: #888; }
-  input[type=number] { flex: 1; font-size: 18px; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 8px; outline: none; transition: border-color .2s; }
-  input[type=number]:focus { border-color: #4f46e5; }
-  button { padding: 10px 22px; font-size: 15px; font-weight: 500; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background .2s; white-space: nowrap; }
-  button:hover { background: #4338ca; }
-  .err { font-size: 13px; color: #dc2626; margin-top: 6px; display: none; }
-  #results { display: none; margin-top: 28px; }
-  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .card { border-radius: 12px; padding: 16px 20px; }
-  .card.accent { background: #eef2ff; border: 1px solid #c7d2fe; }
-  .card.plain { background: white; border: 1px solid #e5e7eb; }
-  .card-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: #6366f1; margin-bottom: 6px; }
-  .card.plain .card-label { color: #888; }
-  .card-value { font-size: 26px; font-weight: 500; color: #4f46e5; }
-  .card.plain .card-value { color: #1a1a1a; }
-  .table-wrap { background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
-  .table-head { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: #888; padding: 10px 16px; background: #fafafa; border-bottom: 1px solid #e5e7eb; }
-  .row { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; font-size: 14px; border-top: 1px solid #f0f0f0; }
-  .row:first-of-type { border-top: none; }
-  .row.total { border-top: 2px solid #e5e7eb; background: #fafafa; font-weight: 500; }
-  .pos { color: #16a34a; }
-  .neg { color: #dc2626; }
-  .muted { color: #888; }
-  .accent-val { color: #4f46e5; }
-  .note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #92400e; line-height: 1.6; }
-  .note strong { color: #78350f; }
-  .footer { margin-top: 32px; font-size: 12px; color: #bbb; text-align: center; }
-  @media(max-width:480px){ .cards{grid-template-columns:1fr} .card-value{font-size:22px} }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f5; color: #1a1a1a; padding: 24px 16px; line-height: 1.6; }
+.container { max-width: 680px; margin: 0 auto; }
+h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+h2 { font-size: 16px; font-weight: 500; margin-bottom: 12px; }
+.badge { display: inline-block; background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
+label { font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; }
+.input-row { display: flex; gap: 8px; align-items: center; }
+.euro { font-size: 18px; color: #888; }
+input[type=number] { flex: 1; font-size: 18px; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 8px; outline: none; transition: border-color .2s; }
+input[type=number]:focus { border-color: #4f46e5; }
+button.calc-btn { padding: 10px 22px; font-size: 15px; font-weight: 500; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+button.calc-btn:hover { background: #4338ca; }
+.err { font-size: 13px; color: #dc2626; margin-top: 6px; display: none; }
+#results { display: none; margin-top: 28px; }
+.cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.card { border-radius: 12px; padding: 14px 16px; }
+.card.accent { background: #eef2ff; border: 1px solid #c7d2fe; }
+.card.plain { background: white; border: 1px solid #e5e7eb; }
+.card-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: #6366f1; margin-bottom: 4px; }
+.card.plain .card-label { color: #888; }
+.card-value { font-size: 20px; font-weight: 500; color: #4f46e5; }
+.card.plain .card-value { color: #1a1a1a; }
+.table-wrap { background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+.table-head { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: #888; padding: 10px 16px; background: #fafafa; border-bottom: 1px solid #e5e7eb; }
+.row { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; font-size: 14px; border-top: 1px solid #f0f0f0; }
+.row:first-of-type { border-top: none; }
+.row.sub { background: #fafafa; color: #888; font-size: 13px; padding-left: 32px; }
+.row.total { border-top: 2px solid #e5e7eb; background: #fafafa; font-weight: 500; }
+.pos { color: #16a34a; }
+.neg { color: #dc2626; }
+.muted { color: #888; }
+.accent-val { color: #4f46e5; }
+.note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 14px; font-size: 12px; color: #92400e; line-height: 1.6; margin-bottom: 20px; }
+.note strong { color: #78350f; }
+.section { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.how-item h3 { font-size: 13px; font-weight: 500; color: #4f46e5; margin-bottom: 4px; }
+.how-item p { font-size: 13px; color: #555; line-height: 1.5; }
+.aliquote-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-bottom: 20px; }
+.aliquote-table th { text-align: left; padding: 6px 8px; color: #888; font-weight: 500; border-bottom: 1px solid #e5e7eb; }
+.aliquote-table td { padding: 6px 8px; border-bottom: 1px solid #f0f0f0; }
+.table-label { font-size: 13px; color: #888; font-weight: 500; margin-bottom: 8px; }
+.sources { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.source-item { font-size: 13px; color: #555; margin-bottom: 8px; }
+.source-item a { color: #4f46e5; text-decoration: none; }
+.source-item a:hover { text-decoration: underline; }
+.footer { margin-top: 24px; font-size: 12px; color: #bbb; text-align: center; padding-bottom: 24px; }
+@media(max-width:560px) { .cards { grid-template-columns: 1fr; } .how-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <h1>Calcolatore RAL → Netto</h1>
-  <p class="subtitle">Impiegato a tempo indeterminato · Milano · Nessuna agevolazione · Aliquote IRPEF 2024</p>
+  <div class="badge">Stima semplificata — non è un cedolino ufficiale</div>
+  <h1>Calcolatore RAL → Netto 2026</h1>
+  <p class="subtitle">Impiegato a tempo indeterminato · Residente a Milano · Nessuna agevolazione fiscale · Normativa 2026</p>
 
   <div style="margin-bottom:24px">
     <label for="ralInput">RAL (Retribuzione Annua Lorda)</label>
     <div class="input-row">
       <span class="euro">€</span>
       <input type="number" id="ralInput" placeholder="es. 30000" min="1000" max="500000" step="500"
-        oninput="document.getElementById('err').style.display='none'"
-        onkeydown="if(event.key==='Enter')calc()">
-      <button onclick="calc()">Calcola</button>
+        oninput="clearErr()" onkeydown="if(event.key==='Enter')calc()">
+      <button class="calc-btn" onclick="calc()">Calcola</button>
     </div>
     <p class="err" id="err">Inserisci una RAL valida (es. 30000)</p>
   </div>
 
   <div id="results">
+
     <div class="cards">
       <div class="card accent">
         <div class="card-label">Netto annuale</div>
-        <div class="card-value" id="nettoAnn">€0</div>
+        <div class="card-value" id="nettoAnn">—</div>
       </div>
       <div class="card plain">
-        <div class="card-label">Netto mensile</div>
-        <div class="card-value" id="nettoMens">€0</div>
+        <div class="card-label">Netto / 12 mensilità</div>
+        <div class="card-value" id="nettoM12">—</div>
+      </div>
+      <div class="card plain">
+        <div class="card-label">Netto / 13 mensilità</div>
+        <div class="card-value" id="nettoM13">—</div>
       </div>
     </div>
 
     <div class="table-wrap">
       <div class="table-head">Dettaglio trattenute</div>
-      <div class="row"><span>RAL lorda</span><span class="pos" id="rRAL"></span></div>
-      <div class="row"><span>Contributi INPS dipendente (9.19%)</span><span class="neg" id="rINPS"></span></div>
-      <div class="row"><span class="muted">Imponibile IRPEF</span><span class="muted" id="rImp"></span></div>
-      <div class="row"><span>IRPEF lorda</span><span class="neg" id="rIrpefL"></span></div>
-      <div class="row"><span>Detrazioni lavoro dipendente</span><span class="pos" id="rDet"></span></div>
-      <div class="row"><span>IRPEF netta</span><span class="neg" id="rIrpefN"></span></div>
-      <div class="row"><span>Addizionale regionale (Lombardia 1.23%)</span><span class="neg" id="rReg"></span></div>
-      <div class="row"><span>Addizionale comunale (Milano 0.80%)</span><span class="neg" id="rCom"></span></div>
-      <div class="row total"><span>Netto annuale</span><span class="accent-val" id="rNetto"></span></div>
+      <div class="row"><span>RAL lorda</span><span class="pos" id="rRAL">—</span></div>
+      <div class="row"><span>Contributi INPS dipendente (9,19%)</span><span class="neg" id="rINPS">—</span></div>
+      <div class="row" style="color:#888"><span>Imponibile IRPEF</span><span id="rImp">—</span></div>
+      <div class="row"><span>IRPEF lorda (scaglioni progressivi 2026)</span><span class="neg" id="rIrpefL">—</span></div>
+      <div class="row sub"><span>Scaglione 23% — fino a €28.000</span><span id="rS1">—</span></div>
+      <div class="row sub"><span>Scaglione 33% — €28.001 a €50.000</span><span id="rS2">—</span></div>
+      <div class="row sub"><span>Scaglione 43% — oltre €50.000</span><span id="rS3">—</span></div>
+      <div class="row"><span>Detrazioni lavoro dipendente</span><span class="pos" id="rDet">—</span></div>
+      <div class="row"><span>IRPEF netta</span><span class="neg" id="rIrpefN">—</span></div>
+      <div class="row"><span>Addizionale regionale Lombardia (progressiva)</span><span class="neg" id="rReg">—</span></div>
+      <div class="row"><span>Addizionale comunale Milano (0,80%)</span><span class="neg" id="rCom">—</span></div>
+      <div id="exemptRow" class="row sub" style="display:none"><span>✓ Esenzione applicata: imponibile ≤ €23.000</span><span style="color:#16a34a">€0</span></div>
+      <div class="row total"><span>Netto annuale</span><span class="accent-val" id="rNetto">—</span></div>
     </div>
 
     <div class="note">
-      <strong>Semplificazioni applicate:</strong> Netto mensile = netto annuale ÷ 12 (tredicesima inclusa nella RAL). Aliquota INPS fissa al 9.19%. Nessun bonus, carichi familiari o detrazioni aggiuntive. Ogni semplificazione è discussa in fase di intervista.
+      <strong>Semplificazioni adottate:</strong> Aliquota INPS fissa al 9,19% senza superamento del massimale. Tredicesima inclusa nella RAL. Nessun bonus, carichi familiari, mutuo o altre detrazioni aggiuntive. Le addizionali regionali e comunali sono qui mostrate come stima annuale. <strong>Questa è una stima indicativa, non un cedolino ufficiale.</strong>
     </div>
+
   </div>
 
-  <div class="footer">Prototipo realizzato da Michele Spuri · Task AI Builder @ Jet HR</div>
+  <div class="section">
+    <h2>Come funziona il calcolo</h2>
+    <div class="how-grid">
+      <div class="how-item">
+        <h3>1. Contributi INPS (9,19%)</h3>
+        <p>Trattenuta obbligatoria per la previdenza. Si applica alla RAL e riduce la base imponibile IRPEF.</p>
+      </div>
+      <div class="how-item">
+        <h3>2. IRPEF 2026 — tre scaglioni</h3>
+        <p>Imposta progressiva: 23% fino a €28.000, 33% da €28.001 a €50.000 (aggiornato dalla Legge di Bilancio 2026), 43% oltre €50.000.</p>
+      </div>
+      <div class="how-item">
+        <h3>3. Detrazioni lavoro dipendente</h3>
+        <p>Sconti IRPEF riconosciuti ai lavoratori dipendenti. Decrescono al crescere del reddito, si azzerano oltre €50.000.</p>
+      </div>
+      <div class="how-item">
+        <h3>4. Addizionale regionale Lombardia</h3>
+        <p>Aliquota progressiva per scaglioni: dall'1,23% per i redditi bassi fino all'1,73% per i redditi alti.</p>
+      </div>
+      <div class="how-item">
+        <h3>5. Addizionale comunale Milano</h3>
+        <p>Aliquota dello 0,80%. Esenzione totale se l'imponibile IRPEF non supera €23.000.</p>
+      </div>
+      <div class="how-item">
+        <h3>6. Netto su 12 o 13 mensilità</h3>
+        <p>Su 12 mesi la tredicesima è inclusa nelle mensilità ordinarie. Su 13 è una mensilità aggiuntiva separata.</p>
+      </div>
+    </div>
+
+    <p class="table-label">Scaglioni IRPEF 2026</p>
+    <table class="aliquote-table">
+      <tr><th>Reddito imponibile</th><th>Aliquota</th><th>Imposta max scaglione</th></tr>
+      <tr><td>Fino a €28.000</td><td>23%</td><td>€6.440</td></tr>
+      <tr><td>€28.001 – €50.000</td><td>33%</td><td>€7.260</td></tr>
+      <tr><td>Oltre €50.000</td><td>43%</td><td>—</td></tr>
+    </table>
+
+    <p class="table-label">Addizionale regionale Lombardia (scaglioni progressivi)</p>
+    <table class="aliquote-table">
+      <tr><th>Imponibile</th><th>Aliquota marginale</th></tr>
+      <tr><td>Fino a €15.000</td><td>1,23%</td></tr>
+      <tr><td>€15.001 – €28.000</td><td>1,58%</td></tr>
+      <tr><td>€28.001 – €55.000</td><td>1,72%</td></tr>
+      <tr><td>Oltre €55.000</td><td>1,73%</td></tr>
+    </table>
+  </div>
+
+  <div class="sources">
+    <h2>Fonti utilizzate</h2>
+    <div class="source-item">📋 <strong>IRPEF 2026 — aliquota 33% scaglione medio:</strong> <a href="https://www.mef.gov.it/focus/Principali-misure-della-legge-di-bilancio-2026/" target="_blank">MEF — Principali misure Legge di Bilancio 2026</a></div>
+    <div class="source-item">📋 <strong>Addizionale regionale Lombardia:</strong> <a href="https://www.regione.lombardia.it/bollo-auto-e-tributi-regionali/red-addizionale-regionale-irpef" target="_blank">Regione Lombardia — Addizionale IRPEF</a></div>
+    <div class="source-item">📋 <strong>Addizionale comunale Milano (esenzione €23.000):</strong> <a href="https://www.comune.milano.it/argomenti/tributi/addizionale-comunale-irpef" target="_blank">Comune di Milano — Addizionale IRPEF</a></div>
+    <div class="source-item">📋 <strong>Contributi INPS lavoratori dipendenti:</strong> <a href="https://www.inps.it" target="_blank">INPS</a></div>
+    <div class="source-item">📋 <strong>Detrazioni lavoro dipendente:</strong> <a href="https://www.agenziaentrate.gov.it" target="_blank">Agenzia delle Entrate</a></div>
+  </div>
+
+  <div class="footer">Prototipo realizzato da Michele Spuri · Task AI Builder @ Jet HR · Stima indicativa non ufficiale</div>
 
 </div>
+
 <script>
-function fmt(n){ return '€' + Math.round(n).toLocaleString('it-IT') }
+function fmt(n) {
+  return '€' + Math.round(n).toLocaleString('it-IT');
+}
 
-function calc(){
-  const ral = parseFloat(document.getElementById('ralInput').value)
-  const err = document.getElementById('err')
-  if(!ral || ral < 1000){ err.style.display = 'block'; return }
+function clearErr() {
+  document.getElementById('err').style.display = 'none';
+}
 
-  const inps = ral * 0.0919
-  const imp = ral - inps
+function resetAll() {
+  ['rRAL','rINPS','rImp','rIrpefL','rS1','rS2','rS3','rDet','rIrpefN','rReg','rCom','rNetto','nettoAnn','nettoM12','nettoM13']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '—'; });
+  document.getElementById('exemptRow').style.display = 'none';
+}
 
-  let irpefL = 0
-  if(imp <= 28000) irpefL = imp * 0.23
-  else if(imp <= 50000) irpefL = 28000 * 0.23 + (imp - 28000) * 0.35
-  else irpefL = 28000 * 0.23 + 22000 * 0.35 + (imp - 50000) * 0.43
+function calcLombardia(imp) {
+  if (imp <= 15000) return imp * 0.0123;
+  if (imp <= 28000) return 15000 * 0.0123 + (imp - 15000) * 0.0158;
+  if (imp <= 55000) return 15000 * 0.0123 + 13000 * 0.0158 + (imp - 28000) * 0.0172;
+  return 15000 * 0.0123 + 13000 * 0.0158 + 27000 * 0.0172 + (imp - 55000) * 0.0173;
+}
 
-  let det = 0
-  if(imp <= 15000) det = 1955
-  else if(imp <= 28000) det = 1910 + 1190 * (28000 - imp) / 13000
-  else if(imp <= 50000) det = 1910 * (50000 - imp) / 22000
+function calc() {
+  const ral = parseFloat(document.getElementById('ralInput').value);
+  const err = document.getElementById('err');
 
-  const irpefN = Math.max(0, irpefL - det)
-  const reg = imp * 0.0123
-  const com = imp * 0.008
-  const nettoA = ral - inps - irpefN - reg - com
-  const nettoM = nettoA / 12
+  if (!ral || ral < 1000) {
+    err.style.display = 'block';
+    resetAll();
+    document.getElementById('results').style.display = 'none';
+    return;
+  }
+  err.style.display = 'none';
 
-  document.getElementById('rRAL').textContent     = fmt(ral)
-  document.getElementById('rINPS').textContent    = '-' + fmt(inps)
-  document.getElementById('rImp').textContent     = fmt(imp)
-  document.getElementById('rIrpefL').textContent  = '-' + fmt(irpefL)
-  document.getElementById('rDet').textContent     = '+' + fmt(det)
-  document.getElementById('rIrpefN').textContent  = '-' + fmt(irpefN)
-  document.getElementById('rReg').textContent     = '-' + fmt(reg)
-  document.getElementById('rCom').textContent     = '-' + fmt(com)
-  document.getElementById('rNetto').textContent   = fmt(nettoA)
-  document.getElementById('nettoAnn').textContent = fmt(nettoA)
-  document.getElementById('nettoMens').textContent = fmt(nettoM) + '/mese'
-  document.getElementById('results').style.display = 'block'
+  // 1. INPS
+  const inps = ral * 0.0919;
+
+  // 2. Imponibile
+  const imp = ral - inps;
+
+  // 3. IRPEF lorda 2026
+  let s1 = 0, s2 = 0, s3 = 0;
+  if (imp <= 28000) {
+    s1 = imp * 0.23;
+  } else if (imp <= 50000) {
+    s1 = 28000 * 0.23;
+    s2 = (imp - 28000) * 0.33;
+  } else {
+    s1 = 28000 * 0.23;
+    s2 = 22000 * 0.33;
+    s3 = (imp - 50000) * 0.43;
+  }
+  const irpefL = s1 + s2 + s3;
+
+  // 4. Detrazioni
+  let det = 0;
+  if (imp <= 15000) det = 1955;
+  else if (imp <= 28000) det = 1910 + 1190 * (28000 - imp) / 13000;
+  else if (imp <= 50000) det = 1910 * (50000 - imp) / 22000;
+
+  // 5. IRPEF netta
+  const irpefN = Math.max(0, irpefL - det);
+
+  // 6. Addizionale Lombardia progressiva
+  const reg = calcLombardia(imp);
+
+  // 7. Addizionale Milano (esenzione ≤ 23.000)
+  const exempt = imp <= 23000;
+  const com = exempt ? 0 : imp * 0.008;
+
+  // 8. Netto
+  const nettoA = ral - inps - irpefN - reg - com;
+
+  // Aggiorna UI
+  document.getElementById('rRAL').textContent    = fmt(ral);
+  document.getElementById('rINPS').textContent   = '-' + fmt(inps);
+  document.getElementById('rImp').textContent    = fmt(imp);
+  document.getElementById('rIrpefL').textContent = '-' + fmt(irpefL);
+  document.getElementById('rS1').textContent     = s1 > 0 ? '-' + fmt(s1) : '€0';
+  document.getElementById('rS2').textContent     = s2 > 0 ? '-' + fmt(s2) : '€0';
+  document.getElementById('rS3').textContent     = s3 > 0 ? '-' + fmt(s3) : '€0';
+  document.getElementById('rDet').textContent    = '+' + fmt(det);
+  document.getElementById('rIrpefN').textContent = '-' + fmt(irpefN);
+  document.getElementById('rReg').textContent    = '-' + fmt(reg);
+  document.getElementById('rCom').textContent    = exempt ? '€0' : '-' + fmt(com);
+  document.getElementById('exemptRow').style.display = exempt ? 'flex' : 'none';
+  document.getElementById('rNetto').textContent  = fmt(nettoA);
+  document.getElementById('nettoAnn').textContent = fmt(nettoA);
+  document.getElementById('nettoM12').textContent = fmt(nettoA / 12) + '/mese';
+  document.getElementById('nettoM13').textContent = fmt(nettoA / 13) + '/mese';
+
+  document.getElementById('results').style.display = 'block';
 }
 </script>
 </body>
