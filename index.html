@@ -83,11 +83,11 @@ button.calc-btn:hover { background: #4338ca; }
         <div class="card-value" id="nettoAnn">—</div>
       </div>
       <div class="card plain">
-        <div class="card-label">Netto / 12 mensilità</div>
+        <div class="card-label">Media mensile (÷12)</div>
         <div class="card-value" id="nettoM12">—</div>
       </div>
       <div class="card plain">
-        <div class="card-label">Netto / 13 mensilità</div>
+        <div class="card-label">Con tredicesima (÷13)</div>
         <div class="card-value" id="nettoM13">—</div>
       </div>
     </div>
@@ -102,6 +102,9 @@ button.calc-btn:hover { background: #4338ca; }
       <div class="row sub"><span>Scaglione 33% — €28.001 a €50.000</span><span id="rS2">—</span></div>
       <div class="row sub"><span>Scaglione 43% — oltre €50.000</span><span id="rS3">—</span></div>
       <div class="row"><span>Detrazioni lavoro dipendente</span><span class="pos" id="rDet">—</span></div>
+      <div class="row sub"><span>Detrazione standard</span><span class="pos" id="rDetStd">—</span></div>
+      <div id="rowDetAgg" class="row sub" style="display:none"><span>Detrazione aggiuntiva (Legge 207/2024)</span><span class="pos" id="rDetAgg">—</span></div>
+      <div id="rowDetBonus" class="row sub" style="display:none"><span>Bonus €65 (fascia €25.000–€35.000)</span><span class="pos" id="rDetBonus">—</span></div>
       <div class="row"><span>IRPEF netta</span><span class="neg" id="rIrpefN">—</span></div>
       <div class="row"><span>Addizionale regionale Lombardia (progressiva)</span><span class="neg" id="rReg">—</span></div>
       <div class="row"><span>Addizionale comunale Milano (0,80%)</span><span class="neg" id="rCom">—</span></div>
@@ -110,7 +113,7 @@ button.calc-btn:hover { background: #4338ca; }
     </div>
 
     <div class="note">
-      <strong>Semplificazioni adottate:</strong> Aliquota INPS fissa al 9,19% senza superamento del massimale. Tredicesima inclusa nella RAL. Nessun bonus, carichi familiari, mutuo o altre detrazioni aggiuntive. Le addizionali regionali e comunali sono qui mostrate come stima annuale. <strong>Questa è una stima indicativa, non un cedolino ufficiale.</strong>
+      <strong>Semplificazioni adottate:</strong> Aliquota INPS fissa al 9,19% senza superamento del massimale. Tredicesima inclusa nella RAL. Nessun bonus, carichi familiari, mutuo o altre detrazioni aggiuntive. Le addizionali regionali e comunali sono mostrate come stima annuale. <strong>Questa è una stima indicativa, non un cedolino ufficiale.</strong>
     </div>
 
   </div>
@@ -124,11 +127,11 @@ button.calc-btn:hover { background: #4338ca; }
       </div>
       <div class="how-item">
         <h3>2. IRPEF 2026 — tre scaglioni</h3>
-        <p>Imposta progressiva: 23% fino a €28.000, 33% da €28.001 a €50.000 (aggiornato dalla Legge di Bilancio 2026), 43% oltre €50.000.</p>
+        <p>Imposta progressiva: 23% fino a €28.000, 33% da €28.001 a €50.000 (Legge di Bilancio 2026), 43% oltre €50.000.</p>
       </div>
       <div class="how-item">
         <h3>3. Detrazioni lavoro dipendente</h3>
-        <p>Sconti IRPEF riconosciuti ai lavoratori dipendenti. Decrescono al crescere del reddito, si azzerano oltre €50.000.</p>
+        <p>Includono la detrazione standard (decrescente oltre €15.000), la detrazione aggiuntiva di €1.000 per redditi tra €20.000 e €32.000 (Legge 207/2024), e il bonus €65 per redditi tra €25.000 e €35.000.</p>
       </div>
       <div class="how-item">
         <h3>4. Addizionale regionale Lombardia</h3>
@@ -139,8 +142,8 @@ button.calc-btn:hover { background: #4338ca; }
         <p>Aliquota dello 0,80%. Esenzione totale se l'imponibile IRPEF non supera €23.000.</p>
       </div>
       <div class="how-item">
-        <h3>6. Netto su 12 o 13 mensilità</h3>
-        <p>Su 12 mesi la tredicesima è inclusa nelle mensilità ordinarie. Su 13 è una mensilità aggiuntiva separata.</p>
+        <h3>6. Media mensile e tredicesima</h3>
+        <p>La divisione per 12 rappresenta la media mensile equivalente del netto annuale. La divisione per 13 simula invece l'erogazione della tredicesima come mensilità separata.</p>
       </div>
     </div>
 
@@ -157,14 +160,15 @@ button.calc-btn:hover { background: #4338ca; }
       <tr><th>Imponibile</th><th>Aliquota marginale</th></tr>
       <tr><td>Fino a €15.000</td><td>1,23%</td></tr>
       <tr><td>€15.001 – €28.000</td><td>1,58%</td></tr>
-      <tr><td>€28.001 – €55.000</td><td>1,72%</td></tr>
-      <tr><td>Oltre €55.000</td><td>1,73%</td></tr>
+      <tr><td>€28.001 – €50.000</td><td>1,72%</td></tr>
+      <tr><td>Oltre €50.000</td><td>1,73%</td></tr>
     </table>
   </div>
 
   <div class="sources">
     <h2>Fonti utilizzate</h2>
     <div class="source-item">📋 <strong>IRPEF 2026 — aliquota 33% scaglione medio:</strong> <a href="https://www.mef.gov.it/focus/Principali-misure-della-legge-di-bilancio-2026/" target="_blank">MEF — Principali misure Legge di Bilancio 2026</a></div>
+    <div class="source-item">📋 <strong>Detrazione aggiuntiva e bonus €65 (Legge 207/2024):</strong> <a href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2024-12-30;207!vig" target="_blank">Normattiva — Legge 30 dicembre 2024 n. 207</a></div>
     <div class="source-item">📋 <strong>Addizionale regionale Lombardia:</strong> <a href="https://www.regione.lombardia.it/bollo-auto-e-tributi-regionali/red-addizionale-regionale-irpef" target="_blank">Regione Lombardia — Addizionale IRPEF</a></div>
     <div class="source-item">📋 <strong>Addizionale comunale Milano (esenzione €23.000):</strong> <a href="https://www.comune.milano.it/argomenti/tributi/addizionale-comunale-irpef" target="_blank">Comune di Milano — Addizionale IRPEF</a></div>
     <div class="source-item">📋 <strong>Contributi INPS lavoratori dipendenti:</strong> <a href="https://www.inps.it" target="_blank">INPS</a></div>
@@ -185,16 +189,18 @@ function clearErr() {
 }
 
 function resetAll() {
-  ['rRAL','rINPS','rImp','rIrpefL','rS1','rS2','rS3','rDet','rIrpefN','rReg','rCom','rNetto','nettoAnn','nettoM12','nettoM13']
+  ['rRAL','rINPS','rImp','rIrpefL','rS1','rS2','rS3','rDet','rDetStd','rDetAgg','rDetBonus','rIrpefN','rReg','rCom','rNetto','nettoAnn','nettoM12','nettoM13']
     .forEach(id => { const el = document.getElementById(id); if(el) el.textContent = '—'; });
   document.getElementById('exemptRow').style.display = 'none';
+  document.getElementById('rowDetAgg').style.display = 'none';
+  document.getElementById('rowDetBonus').style.display = 'none';
 }
 
 function calcLombardia(imp) {
   if (imp <= 15000) return imp * 0.0123;
   if (imp <= 28000) return 15000 * 0.0123 + (imp - 15000) * 0.0158;
-  if (imp <= 55000) return 15000 * 0.0123 + 13000 * 0.0158 + (imp - 28000) * 0.0172;
-  return 15000 * 0.0123 + 13000 * 0.0158 + 27000 * 0.0172 + (imp - 55000) * 0.0173;
+  if (imp <= 50000) return 15000 * 0.0123 + 13000 * 0.0158 + (imp - 28000) * 0.0172;
+  return 15000 * 0.0123 + 13000 * 0.0158 + 22000 * 0.0172 + (imp - 50000) * 0.0173;
 }
 
 function calc() {
@@ -229,39 +235,73 @@ function calc() {
   }
   const irpefL = s1 + s2 + s3;
 
-  // 4. Detrazioni
-  let det = 0;
-  if (imp <= 15000) det = 1955;
-  else if (imp <= 28000) det = 1910 + 1190 * (28000 - imp) / 13000;
-  else if (imp <= 50000) det = 1910 * (50000 - imp) / 22000;
+  // 4. Detrazione standard lavoro dipendente
+  let detStd = 0;
+  if (imp <= 15000) detStd = 1955;
+  else if (imp <= 28000) detStd = 1910 + 1190 * (28000 - imp) / 13000;
+  else if (imp <= 50000) detStd = 1910 * (50000 - imp) / 22000;
 
-  // 5. IRPEF netta
-  const irpefN = Math.max(0, irpefL - det);
+  // 5. Detrazione aggiuntiva Legge 207/2024
+  let detAgg = 0;
+  if (imp > 20000 && imp <= 32000) {
+    detAgg = 1000;
+  } else if (imp > 32000 && imp <= 40000) {
+    detAgg = 1000 * (40000 - imp) / 8000;
+  }
 
-  // 6. Addizionale Lombardia progressiva
+  // 6. Bonus €65 per fascia €25.000–€35.000
+  let detBonus = 0;
+  if (imp > 25000 && imp <= 35000) {
+    detBonus = 65;
+  }
+
+  const detTot = detStd + detAgg + detBonus;
+
+  // 7. IRPEF netta
+  const irpefN = Math.max(0, irpefL - detTot);
+
+  // 8. Addizionale Lombardia progressiva
   const reg = calcLombardia(imp);
 
-  // 7. Addizionale Milano (esenzione ≤ 23.000)
+  // 9. Addizionale Milano (esenzione ≤ 23.000)
   const exempt = imp <= 23000;
   const com = exempt ? 0 : imp * 0.008;
 
-  // 8. Netto
+  // 10. Netto
   const nettoA = ral - inps - irpefN - reg - com;
 
   // Aggiorna UI
-  document.getElementById('rRAL').textContent    = fmt(ral);
-  document.getElementById('rINPS').textContent   = '-' + fmt(inps);
-  document.getElementById('rImp').textContent    = fmt(imp);
-  document.getElementById('rIrpefL').textContent = '-' + fmt(irpefL);
-  document.getElementById('rS1').textContent     = s1 > 0 ? '-' + fmt(s1) : '€0';
-  document.getElementById('rS2').textContent     = s2 > 0 ? '-' + fmt(s2) : '€0';
-  document.getElementById('rS3').textContent     = s3 > 0 ? '-' + fmt(s3) : '€0';
-  document.getElementById('rDet').textContent    = '+' + fmt(det);
-  document.getElementById('rIrpefN').textContent = '-' + fmt(irpefN);
-  document.getElementById('rReg').textContent    = '-' + fmt(reg);
-  document.getElementById('rCom').textContent    = exempt ? '€0' : '-' + fmt(com);
+  document.getElementById('rRAL').textContent     = fmt(ral);
+  document.getElementById('rINPS').textContent    = '-' + fmt(inps);
+  document.getElementById('rImp').textContent     = fmt(imp);
+  document.getElementById('rIrpefL').textContent  = '-' + fmt(irpefL);
+  document.getElementById('rS1').textContent      = s1 > 0 ? '-' + fmt(s1) : '€0';
+  document.getElementById('rS2').textContent      = s2 > 0 ? '-' + fmt(s2) : '€0';
+  document.getElementById('rS3').textContent      = s3 > 0 ? '-' + fmt(s3) : '€0';
+  document.getElementById('rDet').textContent     = '+' + fmt(detTot);
+  document.getElementById('rDetStd').textContent  = '+' + fmt(detStd);
+
+  // Detrazione aggiuntiva
+  if (detAgg > 0) {
+    document.getElementById('rowDetAgg').style.display = 'flex';
+    document.getElementById('rDetAgg').textContent = '+' + fmt(detAgg);
+  } else {
+    document.getElementById('rowDetAgg').style.display = 'none';
+  }
+
+  // Bonus €65
+  if (detBonus > 0) {
+    document.getElementById('rowDetBonus').style.display = 'flex';
+    document.getElementById('rDetBonus').textContent = '+€65';
+  } else {
+    document.getElementById('rowDetBonus').style.display = 'none';
+  }
+
+  document.getElementById('rIrpefN').textContent  = '-' + fmt(irpefN);
+  document.getElementById('rReg').textContent     = '-' + fmt(reg);
+  document.getElementById('rCom').textContent     = exempt ? '€0' : '-' + fmt(com);
   document.getElementById('exemptRow').style.display = exempt ? 'flex' : 'none';
-  document.getElementById('rNetto').textContent  = fmt(nettoA);
+  document.getElementById('rNetto').textContent   = fmt(nettoA);
   document.getElementById('nettoAnn').textContent = fmt(nettoA);
   document.getElementById('nettoM12').textContent = fmt(nettoA / 12) + '/mese';
   document.getElementById('nettoM13').textContent = fmt(nettoA / 13) + '/mese';
