@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcolatore RAL → Netto | Michele Spuri × Jet HR</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f5; color: #1a1a1a; padding: 24px 16px; }
+  .container { max-width: 620px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
+  label { font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; }
+  .input-row { display: flex; gap: 8px; align-items: center; }
+  .euro { font-size: 18px; color: #888; }
+  input[type=number] { flex: 1; font-size: 18px; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 8px; outline: none; transition: border-color .2s; }
+  input[type=number]:focus { border-color: #4f46e5; }
+  button { padding: 10px 22px; font-size: 15px; font-weight: 500; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background .2s; white-space: nowrap; }
+  button:hover { background: #4338ca; }
+  .err { font-size: 13px; color: #dc2626; margin-top: 6px; display: none; }
+  #results { display: none; margin-top: 28px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .card { border-radius: 12px; padding: 16px 20px; }
+  .card.accent { background: #eef2ff; border: 1px solid #c7d2fe; }
+  .card.plain { background: white; border: 1px solid #e5e7eb; }
+  .card-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: #6366f1; margin-bottom: 6px; }
+  .card.plain .card-label { color: #888; }
+  .card-value { font-size: 26px; font-weight: 500; color: #4f46e5; }
+  .card.plain .card-value { color: #1a1a1a; }
+  .table-wrap { background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .table-head { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: #888; padding: 10px 16px; background: #fafafa; border-bottom: 1px solid #e5e7eb; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; font-size: 14px; border-top: 1px solid #f0f0f0; }
+  .row:first-of-type { border-top: none; }
+  .row.total { border-top: 2px solid #e5e7eb; background: #fafafa; font-weight: 500; }
+  .pos { color: #16a34a; }
+  .neg { color: #dc2626; }
+  .muted { color: #888; }
+  .accent-val { color: #4f46e5; }
+  .note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #92400e; line-height: 1.6; }
+  .note strong { color: #78350f; }
+  .footer { margin-top: 32px; font-size: 12px; color: #bbb; text-align: center; }
+  @media(max-width:480px){ .cards{grid-template-columns:1fr} .card-value{font-size:22px} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Calcolatore RAL → Netto</h1>
+  <p class="subtitle">Impiegato a tempo indeterminato · Milano · Nessuna agevolazione · Aliquote IRPEF 2024</p>
+
+  <div style="margin-bottom:24px">
+    <label for="ralInput">RAL (Retribuzione Annua Lorda)</label>
+    <div class="input-row">
+      <span class="euro">€</span>
+      <input type="number" id="ralInput" placeholder="es. 30000" min="1000" max="500000" step="500"
+        oninput="document.getElementById('err').style.display='none'"
+        onkeydown="if(event.key==='Enter')calc()">
+      <button onclick="calc()">Calcola</button>
+    </div>
+    <p class="err" id="err">Inserisci una RAL valida (es. 30000)</p>
+  </div>
+
+  <div id="results">
+    <div class="cards">
+      <div class="card accent">
+        <div class="card-label">Netto annuale</div>
+        <div class="card-value" id="nettoAnn">€0</div>
+      </div>
+      <div class="card plain">
+        <div class="card-label">Netto mensile</div>
+        <div class="card-value" id="nettoMens">€0</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head">Dettaglio trattenute</div>
+      <div class="row"><span>RAL lorda</span><span class="pos" id="rRAL"></span></div>
+      <div class="row"><span>Contributi INPS dipendente (9.19%)</span><span class="neg" id="rINPS"></span></div>
+      <div class="row"><span class="muted">Imponibile IRPEF</span><span class="muted" id="rImp"></span></div>
+      <div class="row"><span>IRPEF lorda</span><span class="neg" id="rIrpefL"></span></div>
+      <div class="row"><span>Detrazioni lavoro dipendente</span><span class="pos" id="rDet"></span></div>
+      <div class="row"><span>IRPEF netta</span><span class="neg" id="rIrpefN"></span></div>
+      <div class="row"><span>Addizionale regionale (Lombardia 1.23%)</span><span class="neg" id="rReg"></span></div>
+      <div class="row"><span>Addizionale comunale (Milano 0.80%)</span><span class="neg" id="rCom"></span></div>
+      <div class="row total"><span>Netto annuale</span><span class="accent-val" id="rNetto"></span></div>
+    </div>
+
+    <div class="note">
+      <strong>Semplificazioni applicate:</strong> Netto mensile = netto annuale ÷ 12 (tredicesima inclusa nella RAL). Aliquota INPS fissa al 9.19%. Nessun bonus, carichi familiari o detrazioni aggiuntive. Ogni semplificazione è discussa in fase di intervista.
+    </div>
+  </div>
+
+  <div class="footer">Prototipo realizzato da Michele Spuri · Task AI Builder @ Jet HR</div>
+
+</div>
+<script>
+function fmt(n){ return '€' + Math.round(n).toLocaleString('it-IT') }
+
+function calc(){
+  const ral = parseFloat(document.getElementById('ralInput').value)
+  const err = document.getElementById('err')
+  if(!ral || ral < 1000){ err.style.display = 'block'; return }
+
+  const inps = ral * 0.0919
+  const imp = ral - inps
+
+  let irpefL = 0
+  if(imp <= 28000) irpefL = imp * 0.23
+  else if(imp <= 50000) irpefL = 28000 * 0.23 + (imp - 28000) * 0.35
+  else irpefL = 28000 * 0.23 + 22000 * 0.35 + (imp - 50000) * 0.43
+
+  let det = 0
+  if(imp <= 15000) det = 1955
+  else if(imp <= 28000) det = 1910 + 1190 * (28000 - imp) / 13000
+  else if(imp <= 50000) det = 1910 * (50000 - imp) / 22000
+
+  const irpefN = Math.max(0, irpefL - det)
+  const reg = imp * 0.0123
+  const com = imp * 0.008
+  const nettoA = ral - inps - irpefN - reg - com
+  const nettoM = nettoA / 12
+
+  document.getElementById('rRAL').textContent     = fmt(ral)
+  document.getElementById('rINPS').textContent    = '-' + fmt(inps)
+  document.getElementById('rImp').textContent     = fmt(imp)
+  document.getElementById('rIrpefL').textContent  = '-' + fmt(irpefL)
+  document.getElementById('rDet').textContent     = '+' + fmt(det)
+  document.getElementById('rIrpefN').textContent  = '-' + fmt(irpefN)
+  document.getElementById('rReg').textContent     = '-' + fmt(reg)
+  document.getElementById('rCom').textContent     = '-' + fmt(com)
+  document.getElementById('rNetto').textContent   = fmt(nettoA)
+  document.getElementById('nettoAnn').textContent = fmt(nettoA)
+  document.getElementById('nettoMens').textContent = fmt(nettoM) + '/mese'
+  document.getElementById('results').style.display = 'block'
+}
+</script>
+</body>
+</html>
